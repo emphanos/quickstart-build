@@ -25,7 +25,7 @@ QS_USER="quickstart"
 QS_HOST_NAME="qs3" 
 
 # Name of Virtual Machine in Virtualbox
-QS_VBOX_NAME="Quickstart 2.0 (build $RANDOM)" 
+QS_VBOX_NAME="Quickstart 3.0 (build $RANDOM)" 
 
 # Desktop(s) to load and configure: Cinnamon, Gnome
 QS_DESKTOPS="All"
