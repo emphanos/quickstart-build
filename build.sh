@@ -83,7 +83,7 @@ echo "
 read -p "Are you sure?  (ctrl-c to quit)"
 
 
-## Install VirtualBox, Vagrant, and Python if necessary
+## Build Tools: Install VirtualBox, Vagrant, and Python if necessary
 
 # Verify/install Virtualbox   https://www.virtualbox.org/wiki/Downloads
 command -v VBoxManage >/dev/null 2>&1 || { sudo apt-get update; sudo apt-get install virtualbox; }
@@ -93,7 +93,7 @@ command -v vagrant >/dev/null 2>&1 || { sudo apt-get install vagrant; }
 command -v python >/dev/null 2>&1 || { sudo apt-get install python; }
 
 
-## Build new VirtualMachine
+## Config variables: 
 
 # Set variables for Puppet.  Puppet Facter makes available in .pp
 FACTER_quickstart_user=QS_USER
@@ -103,24 +103,20 @@ FACTER_quickstart_desktops=QS_DESKTOPS
 FACTER_quickstart_projects=QS_PROJECTS
 FACTER_quickstart_images=QS_IMAGES
 
-# FIXME where do we bootstrap in our Puppet files?
 
-# FIXME where do we strap in our bach config files for dev envs
+## Build QuickTest server
 
-# Use the vagrant project in this repo
-#  Uses /Vagrantfile
-#  downloads and caches Ubuntu 12.04 LTS box from vagrantup.com
-#  runs /manifests/build/precise64.pp
-# FIXME This needs to build the Vagrantfile depending on QS_IMAGES
+# Execution goes to /Vagrantfile
+#  Vagrant downloads and caches Ubuntu 12.04 LTS box from vagrantup.com
+#  Vagrantfile runs /manifests/build/QuickTest.pp
+# FIXME /Vagrantfile should be built, depending on the value of QS_IMAGES.  OR, we should make several passes.
 vagrant up
 
-
-## This VM is done
-exit
-vagrant halt  #kernel updates
+# The VM has been built and configured.
+vagrant halt  # also kernel updates
 
 
-## Wrap it up
+## Package
 # Remove vagrant login public key
 vagrant up
 # FIXME This needs to change for multi-vm

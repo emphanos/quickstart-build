@@ -13,7 +13,7 @@ Vagrant::Config.run do |config|
   config.vm.boot_mode = :gui
 
   # Configure VM
-  config.vm.customize ["modifyvm", :id, "--memory", 1536]
+  config.vm.customize ["modifyvm", :id, "--memory", 2048]
   config.vm.customize ["modifyvm", :id, "--vram", 64]
   config.vm.customize ["modifyvm", :id, "--accelerate3d", "on"]
   config.vm.host_name = "qs20"
