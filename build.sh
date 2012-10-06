@@ -73,7 +73,11 @@ echo "
   * Desktops:     $QS_DESKTOPS
   * Dev projects: $QS_PROJECTS
   * Images:       $QS_IMAGES
-THIS WILL DELETE ANY IMAGES IN PROGRESS!"
+
+THIS WILL DELETE ANY IMAGES IN PROGRESS!
+
+Debugging?  Consider using $ bash -x build.sh
+"
 read -p "Press enter to continue or ctrl-c to quit"
 
 
@@ -106,7 +110,7 @@ command -v vagrant >/dev/null 2>&1 || { sudo apt-get install vagrant; }
 # Verify/install python
 command -v python >/dev/null 2>&1 || { sudo apt-get install python; }
 
-## Get private key for vagrant.  We'll need this to setup ssh.
+## Get private key for vagrant.  We'll need this to setup non-vagrant ssh later.
 if [ ! -e ~/.ssh/vagrant ]; then wget https://raw.github.com/mitchellh/vagrant/master/keys/vagrant -O ~/.ssh/vagrant; fi
 chmod 600 ~/.ssh/vagrant
 ssh-add ~/.ssh/vagrant
@@ -120,12 +124,15 @@ echo "=========================================== 1) QuickTest: Build"
 
 # Execution goes to /Vagrantfile
 #  Vagrant downloads and caches Ubuntu 12.04 LTS box from vagrantup.com
-#  Vagrantfile runs /manifests/build/QuickTest.pp
-# FIXME /Vagrantfile should be built, depending on the value of QS_IMAGES.  OR, we should make several passes.
+#  Vagrantfile runs /manifests/build/QuickBuild.pp
+#  Just bootstrap essential virtual machine configuration.
 vagrant up
 
 # Get the Virtualbox name from .vagrant using python's json parser - IMPORTANT!
 QUICKBUILD_VBOX_NAME=`cat .vagrant | python -c 'import json,sys;obj=json.loads(sys.stdin.read());print obj["'"active"'"]["'"default"'"]'`
+
+# Build QuickTest server
+vagrant ssh -c "echo Go for QuickProd"
 
 # The QuickTest VM has been built and configured.  Shutdown to use any new kernel updates
 vagrant halt
@@ -153,8 +160,8 @@ quickstart_package() {
 	quickstart_vbox_destroy "$2"
 	QS_BOXFILE="$QS_OUTPUT"/"$3.box"
 	QS_OVAFILE="$QS_OUTPUT"/"$3.ova"
-	rm "$QS_BOXFILE"
-	rm "$QS_OVAFILE"
+	rm -f "$QS_BOXFILE"
+	rm -f "$QS_OVAFILE"
 
 	## Make a copy
 	vboxmanage clonevm "$1" --name "$2" --register
@@ -164,14 +171,18 @@ quickstart_package() {
 
 	if [ ! -e "$QS_BOXFILE" ]; then echo "Failed to export $QS_BOXFILE"; exit 1; fi
 
-	## Package with Vbox
-	# Switching to guns.  After we cloned the VM, we can't use vagrant any more.  We have to ssh the hard way.
+	## Package with Vbox - remove vagrant ssh public key
+
+	# Switching to guns.  After we cloned the VM, we can't use vagrant any more.  We have to ssh the hard way.  configure ssh
 	vboxmanage modifyvm "$2" --natpf1 "guestssh,tcp,127.0.0.1,2223,,22"
 	vboxmanage startvm "$2"; sleep 20
-	# Secure copy.  Remove vagrant login public key.  No more ssh after this
+
+	# Remove vagrant ssh public key.  No way for vagrant to login ssh after this
 	ssh -p 2223  -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@127.0.0.1 "rm ~/.ssh/authorized_keys; sudo poweroff"
-	# Wait for it to power off
+
+	# Wait for power off
 	sleep 10; 
+
 	# unconfigure ssh
 	vboxmanage modifyvm "$2" --natpf1 delete "guestssh"
 
@@ -194,10 +205,19 @@ quickstart_package() {
 quickstart_package "$QUICKBUILD_VBOX_NAME" "$QUICKTEST_VBOX_NAME" "$QUICKTEST_FILE_NAME" 
 
 echo "=========================================== 3) QuickProd: Build (configure with config tool)"
+## back to vagrant build box
+vagrant up
+vagrant ssh -c "echo Go for QuickProd"
+vagrant halt
+
 echo "=========================================== 4) QuickProd: Export Vagrant and Virtualbox"
 quickstart_package "$QUICKBUILD_VBOX_NAME" "$QUICKPROD_VBOX_NAME" "$QUICKPROD_FILE_NAME" 
 
 echo "=========================================== 5) QuickDev:  Build (add desktops)"
+vagrant up
+vagrant ssh -c "echo Go for QuickDev"
+vagrant halt
+
 echo "=========================================== 6) QuickDev:  Export Vagrant and Virtualbox"
 quickstart_package "$QUICKBUILD_VBOX_NAME" "$QUICKDEV_VBOX_NAME" "$QUICKDEV_FILE_NAME" 
 
