@@ -16,6 +16,8 @@ rm -f QuickBox.box  # after vagrant box add below, this file can be deleted
 echo "*** Rebuilding QuickBox"
 vagrant halt 2> /dev/null
 vagrant destroy -f
+
+echo " * This error is ok.  See Vagrantfile.  /usr/sbin/grub-probe: error: cannot stat /dev/disk/by-id/ata-VBOX_HARDDISK_VB99bad0f8-38d48ed5."
 vagrant up
 
 vagrant halt
