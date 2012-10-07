@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "*** Cleaning $1"
+
 # ############################################## Get settings
 . build-settings.sh
 

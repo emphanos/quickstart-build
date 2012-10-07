@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "*** Configuring $1"
 
 # ############################################## Get settings
 . build-settings.sh

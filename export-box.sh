@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Exporting $1"
+
 # ############################################## Get settings
 . build-settings.sh
 
@@ -74,7 +76,7 @@ qs_export() {
 }
 
 if [ "$1" == "Base" ]; then
-	echo "*** Export QuickBase?  Nothing to do..."
+	echo "** Export QuickBase?  Nothing to do..."
 	#qs_export "$QUICKBASE_UUID" "$QUICKBASE_VBOX" "$QUICKBASE_FILE"
 fi
 
