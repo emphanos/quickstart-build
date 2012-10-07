@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Exporting $1"
+echo "*** Exporting $1"
 
 # ############################################## Get settings
 . build-settings.sh
