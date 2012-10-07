@@ -1,0 +1,26 @@
+# This file is responsible for configuring the virtual hardware.
+
+Vagrant::Config.run do |config|
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "precise64"
+
+  # The url from where the 'config.vm.box' box will be fetched if it
+  # doesn't already exist on the user's system.
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+  # Boot with a GUI so you can see the screen. (Default is headless)
+  #config.vm.boot_mode = :gui
+
+  # Configure VM
+  config.vm.customize ["modifyvm", :id, "--memory", 2048]
+  config.vm.customize ["modifyvm", :id, "--vram", 64]
+  config.vm.customize ["modifyvm", :id, "--accelerate3d", "on"]
+  config.vm.host_name = "QuickBox"
+
+  # Provision with inline shell
+  Vagrant::Config.run do |config|
+    # See https://bugs.launchpad.net/ubuntu/+bug/1009294
+    config.vm.provision :shell, :inline => "DEBIAN_FRONTEND=noninteractive dpkg-reconfigure grub-pc; sudo apt-get -yq update; sudo apt-get -yq upgrade; sudo apt-get -yq autoremove"
+  end
+
+end

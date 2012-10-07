@@ -1,0 +1,11 @@
+# Working copy
+.vagrant
+
+# Output files
+*.ova
+*.box
+
+# BuildBox files
+/BuildBox/.vagrant
+/BuildBox/*.box
+
