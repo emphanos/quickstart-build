@@ -41,6 +41,10 @@ ssh-add ~/.ssh/vagrant
 if [ -z `vagrant box list | grep QuickBox` ]; then
   echo "*** Rebuilding QuickBox"
   ( cd QuickBox; bash rebuild.sh )  #runs commands in it's own shell
+else
+  echo "*** Using existing QuickBox.  
+ * vagrant box remove QuickBox to force re-update
+ * vagrant box remove precise64 to force redownload"
 fi
 
 # Build everything else
