@@ -39,7 +39,7 @@ user { "quickstart":
   groups    => ["www-data", "root", "admin"],
   managehome => true,  
 }
-/* Add user to to passwordless /etc/sudoers */
+/* Add user to passwordless /etc/sudoers */
 exec { "echo \"${qs_user} ALL=(ALL) NOPASSWD: ALL\" | sudo tee -a /etc/sudoers > /dev/null":
   unless => ["sudo grep \"^${qs_user}\" /etc/sudoers"],
   require => User["quickstart"],
