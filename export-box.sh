@@ -65,6 +65,7 @@ qs_export() {
 	vboxmanage startvm "$2"; sleep 20
 
 	# Remove vagrant ssh public key.  No way for vagrant to login ssh after this
+	ssh-add ~/.ssh/vagrant
 	ssh -p 2223  -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@127.0.0.1 "rm ~/.ssh/authorized_keys; sudo poweroff"
 
 	# Wait for power off

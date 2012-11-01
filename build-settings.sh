@@ -37,21 +37,28 @@ QUICKTEST_FILE="QuickTest.$QS_VERSION"
 QUICKPROD_FILE="QuickProd.$QS_VERSION"
 QUICKDEV_FILE="QuickDev.$QS_VERSION"
 
+# Quicksprint settings
+QUICKSPRINT_FILE="QuickSprint.$QS_VERSION"
+VBOX_HOST_WINDOWS_URL="http://files.vagrantup.com/packages/aafa79fe66db687da265d790d5e67a2a7ec30d92/vagrant_1.0.0_i686.rpm"
+VBOX_HOST_MAC_URL="http://files.vagrantup.com/packages/aafa79fe66db687da265d790d5e67a2a7ec30d92/vagrant_1.0.0_i686.rpm"
+
+
 # ############################################## Install Build Tools
 
 ## Build Tools: Install VirtualBox, Vagrant, and Python if necessary
 
 # Verify/install Virtualbox   https://www.virtualbox.org/wiki/Downloads
-command -v VBoxManage >/dev/null 2>&1 || { echo "Installing virtualbox..."; sudo apt-get -yqq update; sudo apt-get -yq install virtualbox; }
+command -v VBoxManage >/dev/null 2>&1 || { echo "Installing virtualbox..."; sudo apt-get -yqq update; sudo apt-get -yqq install virtualbox; }
 # Verify/install vagrant      http://downloads.vagrantup.com/
 command -v vagrant >/dev/null 2>&1 || { echo "Installing vagrant..."; sudo apt-get -yqq update; sudo apt-get -yqq install vagrant; }
 # Verify/install python
 command -v python >/dev/null 2>&1 || { echo "Installing python..."; sudo apt-get -yqq update; sudo apt-get -yqq install python; }
+# Verify/install genisoimage (for QuickSprint.iso)
+command -v genisoimage >/dev/null 2>&1 || { echo "Installing python..."; sudo apt-get -yqq update; sudo apt-get -yqq install genisoimage; }
 
 ## Get private key for vagrant.  We'll need this to setup non-vagrant ssh later.
 if [ ! -e ~/.ssh/vagrant ]; then wget https://raw.github.com/mitchellh/vagrant/master/keys/vagrant -O ~/.ssh/vagrant; fi
 chmod 600 ~/.ssh/vagrant
-ssh-add ~/.ssh/vagrant
 
 
 
@@ -100,8 +107,9 @@ if [ -z $QS_CONFIRM ]; then echo "
 Debugging?  Consider running this script with $ bash -x $0 $*
 
 Strange errors?  Did you run out of disk space? 
-
 "
+df -h $QS_OUTPUT
+echo ""
 QS_CONFIRM=done
 read -p "Press enter to continue or ctrl-c to quit"
 fi
