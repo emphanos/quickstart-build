@@ -37,6 +37,26 @@ QUICKTEST_FILE="QuickTest.$QS_VERSION"
 QUICKPROD_FILE="QuickProd.$QS_VERSION"
 QUICKDEV_FILE="QuickDev.$QS_VERSION"
 
+# ############################################## Install Build Tools
+
+## Build Tools: Install VirtualBox, Vagrant, and Python if necessary
+
+# Verify/install Virtualbox   https://www.virtualbox.org/wiki/Downloads
+command -v VBoxManage >/dev/null 2>&1 || { echo "Installing virtualbox..."; sudo apt-get -yqq update; sudo apt-get -yq install virtualbox; }
+# Verify/install vagrant      http://downloads.vagrantup.com/
+command -v vagrant >/dev/null 2>&1 || { echo "Installing vagrant..."; sudo apt-get -yqq update; sudo apt-get -yqq install vagrant; }
+# Verify/install python
+command -v python >/dev/null 2>&1 || { echo "Installing python..."; sudo apt-get -yqq update; sudo apt-get -yqq install python; }
+
+## Get private key for vagrant.  We'll need this to setup non-vagrant ssh later.
+if [ ! -e ~/.ssh/vagrant ]; then wget https://raw.github.com/mitchellh/vagrant/master/keys/vagrant -O ~/.ssh/vagrant; fi
+chmod 600 ~/.ssh/vagrant
+ssh-add ~/.ssh/vagrant
+
+
+
+# ############################################## Find working copy (if available)
+
 # Get the Virtualbox name from .vagrant using python's json parser - this may not be valid.
 qs_get_base_uuid() {
 	if [ -f ".vagrant" ]; then
@@ -85,4 +105,5 @@ Strange errors?  Did you run out of disk space?
 QS_CONFIRM=done
 read -p "Press enter to continue or ctrl-c to quit"
 fi
+
 
