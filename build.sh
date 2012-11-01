@@ -15,23 +15,6 @@
 # Documentation: http://<url>
 
 
-# ############################################## Install Build Tools
-
-## Build Tools: Install VirtualBox, Vagrant, and Python if necessary
-
-# Verify/install Virtualbox   https://www.virtualbox.org/wiki/Downloads
-command -v VBoxManage >/dev/null 2>&1 || { sudo apt-get update; sudo apt-get install virtualbox; }
-# Verify/install vagrant      http://downloads.vagrantup.com/
-command -v vagrant >/dev/null 2>&1 || { sudo apt-get install vagrant; }
-# Verify/install python
-command -v python >/dev/null 2>&1 || { sudo apt-get install python; }
-
-## Get private key for vagrant.  We'll need this to setup non-vagrant ssh later.
-if [ ! -e ~/.ssh/vagrant ]; then wget https://raw.github.com/mitchellh/vagrant/master/keys/vagrant -O ~/.ssh/vagrant; fi
-chmod 600 ~/.ssh/vagrant
-ssh-add ~/.ssh/vagrant
-
-
 # ############################################## Get settings
 . build-settings.sh
 
