@@ -7,8 +7,6 @@ echo "*** Cleaning $1"
 
 ## Destroy a vm in Virtualbox.  Suppress "does not exist" errors.  
 qs_vbox_clean() {
-	#  Usage: qs_vbox_clean "$QUICKTEST_VBOX"
-	#  Does NOT use $QS_CLEAN
 	echo "** Removing output virtualbox image: $1  ..."
 	vboxmanage controlvm "$1" poweroff 2> /dev/null; sleep 5
 	vboxmanage unregistervm "$1" --delete 2> /dev/null
@@ -18,8 +16,6 @@ qs_vbox_clean() {
 ## Clean output files
 qs_output_clean() {
 	echo "** Removing output files:" "$QS_OUTPUT"/"$1.box" "$QS_OUTPUT"/"$1.ova"
-	#  Usage: qs_output_clean "$QUICKTEST_FILE"
-	#  Uses: $QS_OUTPUT.  Does NOT use $QS_CLEAN.
 	rm -f "$QS_OUTPUT"/"$1.box"
 	rm -f "$QS_OUTPUT"/"$1.ova"
 	echo "**   ...  Done"

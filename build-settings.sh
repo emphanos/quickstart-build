@@ -82,11 +82,9 @@ FACTER_QS_DESKTOPS=QS_DESKTOPS
 FACTER_QS_PROJECTS=QS_PROJECTS
 
 # Configuration commands - passed through ssh
-QS_GO_QUICKTEST="sudo apt-get -yq install php5 php5-cli php5-mysql php5-xdebug php-apc php5-curl php5-gd php5-imap php5-mcrypt php5-sqlite php5-xsl phpmyadmin"
-
-QS_GO_QUICKPROD="echo ==== CONFIGURE QUICKPROD"
-
-QS_GO_QUICKDEV="sudo apt-get -yq install python-software-properties; sudo add-apt-repository -y ppa:gwendal-lebihan-dev/cinnamon-stable; sudo apt-get -yq update; sudo apt-get -yq install cinnamon ubuntu-desktop gnome-session lightdm unity-greeter"
+QS_GO_QUICKTEST=". config-quicktest.sh"
+QS_GO_QUICKPROD=". config-quickprod.sh"
+QS_GO_QUICKDEV=". config-quickdev.sh"
 
 
 # ############################################## Confirmation

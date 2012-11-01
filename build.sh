@@ -35,6 +35,7 @@ fi
 . build-box.sh Test
 . build-box.sh Prod
 . build-box.sh Dev
+. build-iso.sh
 
 
 
