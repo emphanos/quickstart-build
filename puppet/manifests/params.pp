@@ -1,4 +1,4 @@
-# params.pp configuration file.  Written on each execute of build-box.sh
+# params.pp configuration file.  Written on each execute of build.sh
 class params {
   $QS_VERSION = '3.0'
   $QS_USER = 'quickstart'
