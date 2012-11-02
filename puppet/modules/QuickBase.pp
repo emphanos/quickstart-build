@@ -1,4 +1,12 @@
-class project {
+/**
+ * This should
+ *  - Download and applying OS updates (most updates are pre-applied in the Vagrant Box QuickBox)
+ *  - install basic tools: git, puppet, ruby-full, rubygems
+ *  - Configure a "quickstart" user
+ *  - Clone the configuration git repository /var/quickstart/quickstart-configure
+ *  - Setup the /var/quickstart directory
+ */ 
+class QuickBase {
 
 	/* download and apply OS updates */
 	exec {"sudo apt-get -yq update; sudo apt-get -yq upgrade; sudo apt-get -yq autoremove":}
@@ -10,7 +18,7 @@ class project {
 	package { "ruby-shadow":
 	    provider => 'gem',
 	    ensure => installed,
-	    require => Package[[rubygems]]
+	    require => Package[[rubygems]],
 	}
 
 	/* configure the "quickstart" user  */

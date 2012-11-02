@@ -1,4 +1,5 @@
-# This file is responsible for configuring the virtual hardware.
+# This file is responsible for configuring the virtual machine.
+# Hardware, OS, Network, Shared folders, simple Puppet bootstrap.
 
 Vagrant::Config.run do |config|
 
@@ -28,17 +29,18 @@ Vagrant::Config.run do |config|
   # Configure Image Development shared folder.
   # Rather than commiting to git each change, share quickstart-configure.  See build-settings.sh ~line 25
   # Comment this line for "official build"
-  config.vm.share_folder "Shared", "/tmp/quickstart-configure", "~/quickstart-configure"
+  config.vm.share_folder "quickstart-configure-live", "/var/quickstart/quickstart-configure-live", "~/quickstart-configure"
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "manifests"
+    puppet.manifests_path = "puppet/manifests"
+    puppet.module_path = "puppet/modules"
     # Execution continues in this file.
-    puppet.manifest_file  = "build/QuickBase.pp"
+    puppet.manifest_file  = "default.pp"
     puppet.options = [
       '--verbose',
-#      '--debug',
+      '--debug',
     ]
   end
 

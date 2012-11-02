@@ -85,12 +85,17 @@ class params {
   \$QS_QS_HOSTNAME = '$QS_HOSTNAME'
   \$QS_DESKTOPS = '$QS_DESKTOPS'
   \$QS_PROJECTS = '$QS_PROJECTS'
-}" > manifests/build/params.pp
+}" > puppet/manifests/params.pp
 
 # Configuration commands - passed through ssh
-QS_GO_QUICKTEST=". config-quicktest.sh"
-QS_GO_QUICKPROD=". config-quickprod.sh"
-QS_GO_QUICKDEV=". config-quickdev.sh"
+QS_CONFIG_DIR=/var/quickstart/quickstart-configure
+if [ -z $QS_DEBUG ]; then
+  QS_CONFIG_DIR=/var/quickstart/quickstart-configure-live
+fi
+
+QS_GO_QUICKTEST="cd $QS_CONFIG_DIR && bash config-quicktest.sh"
+QS_GO_QUICKPROD="cd $QS_CONFIG_DIR && bash config-quickprod.sh"
+QS_GO_QUICKDEV="cd $QS_CONFIG_DIR && bash config-quickdev.sh"
 
 
 # ############################################## Confirmation
@@ -103,7 +108,6 @@ if [ -z $QS_CONFIRM ]; then echo "
   * Version:      $QS_VERSION
   * Linux User:   $QS_USER
   * Host name:    $QS_HOSTNAME
-  * VBox name:    $QUICKBASE_VBOX
   * Desktops:     $QS_DESKTOPS
   * Dev projects: $QS_PROJECTS
   * Output:       $QS_OUTPUT
