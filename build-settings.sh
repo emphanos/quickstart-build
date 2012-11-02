@@ -20,7 +20,10 @@ QS_DESKTOPS="All"
 QS_PROJECTS="All"
 
 # Where should the files go?
-QS_OUTPUT="."
+QS_OUTPUT="./Output"
+
+# Are we in development mode?  Comment for official mode.  See also VagrantFile ~line 31
+QS_DEBUG=On
 
 # ############################################## VBox and File names
 
@@ -75,11 +78,14 @@ qs_get_base_uuid() {
 
 # Set variables for Puppet.  Puppet Facter makes these available in QuickBase.pp shell commands
 # These are written to /var/quickstart/config.sh at the bottom of QuickBase.pp
-FACTER_QS_VERSION=QS_VERSION
-FACTER_QS_USER=QS_USER
-FACTER_QS_HOSTNAME=QS_HOSTNAME
-FACTER_QS_DESKTOPS=QS_DESKTOPS
-FACTER_QS_PROJECTS=QS_PROJECTS
+echo "# params.pp configuration file.  Written on each execute of $0
+class params {
+  \$QS_VERSION = '$QS_VERSION'
+  \$QS_USER = '$QS_USER'
+  \$QS_QS_HOSTNAME = '$QS_HOSTNAME'
+  \$QS_DESKTOPS = '$QS_DESKTOPS'
+  \$QS_PROJECTS = '$QS_PROJECTS'
+}" > manifests/build/params.pp
 
 # Configuration commands - passed through ssh
 QS_GO_QUICKTEST=". config-quicktest.sh"

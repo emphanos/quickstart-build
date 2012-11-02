@@ -4,8 +4,11 @@
 # Output files
 *.ova
 *.box
+*.iso
 
 # BuildBox files
 /BuildBox/.vagrant
 /BuildBox/*.box
 
+# Output files
+/Output/*
