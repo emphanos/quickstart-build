@@ -6,9 +6,11 @@
  *  - Setup the /var/quickstart directory
  *  - Clone the configuration git repository /var/quickstart/quickstart-configure
  */ 
-class quickbase {
+class quickbase( $username ) {
 
-	include quickbase::update
+	Exec { path => '/usr/bin:/bin:/usr/sbin:/sbin' }
+
+	/* include quickbase::update   FIXME taking this out to speed up development */
 	include quickbase::tools
 	include quickbase::user
 	include quickbase::workingdir

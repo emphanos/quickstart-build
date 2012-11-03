@@ -34,8 +34,8 @@ Vagrant::Config.run do |config|
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "puppet/manifests"
-    puppet.module_path = "puppet/modules"
+    puppet.manifests_path = "QuickBase/puppet/manifests"
+    puppet.module_path = "QuickBase/puppet/modules"
     # Execution continues in this file.
     puppet.manifest_file  = "default.pp"
     puppet.options = [

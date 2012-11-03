@@ -11,6 +11,18 @@ To debug, include -x on any bash command.  E.g. bash -x build.sh
 
 
 There are 5 stages to the build:
+ * QuickBox
+   - Download "precise64" Vagrant box from VagrantUp.com.
+   - Run updates and repackage as QuickBox box locally 
+ * QuickBase
+   - Minimum bootstrap to run quickstart-configure build scripts
+   - Quickstart user, working dir, minimal packages, git clone quickstart-configure
+ * QuickTest
+   - Build a headless development lamp server
+   - Configure the lamp server for production and internet
+ * QuickDev
+   - Configure the server back for development
+   - Install a window manager and graphical dev tools
 
 === 1) QuickBox
 
@@ -48,11 +60,11 @@ This step rebuilds the Vagrant "working copy" image that is customized by QuickT
 
 The build can be interacted with using:
 
-	$ bash build-box.sh Build   - clean, config, export
+	$ bash build-box.sh Base   - clean, config, export
 
-	$ bash clean-box.sh Build   - clean the vagrant working copy, QuickBuild export copy, exported files
-	$ bash config-box.sh Build  - rebuild the "Working Copy"
-	$ bash export-box.sh Build  - copy the "working copy" to QuickBuild export copy, then export files
+	$ bash clean-box.sh Base   - clean the vagrant working copy, QuickBuild export copy, exported files
+	$ bash config-box.sh Base  - rebuild the "Working Copy"
+	$ bash export-box.sh Base  - copy the "working copy" to QuickBuild export copy, then export files
 
 
 3,4,5) QuickTest, QuickProd, QuickDev

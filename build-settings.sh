@@ -80,12 +80,10 @@ qs_get_base_uuid() {
 # These are written to /var/quickstart/config.sh at the bottom of QuickBase.pp
 echo "# params.pp configuration file.  Written on each execute of $0
 class params {
-  \$QS_VERSION = '$QS_VERSION'
-  \$QS_USER = '$QS_USER'
-  \$QS_QS_HOSTNAME = '$QS_HOSTNAME'
-  \$QS_DESKTOPS = '$QS_DESKTOPS'
-  \$QS_PROJECTS = '$QS_PROJECTS'
-}" > puppet/manifests/params.pp
+  \$version = '$QS_VERSION'
+  \$username = '$QS_USER'
+}" > QuickBase/puppet/manifests/params.pp
+
 
 # Configuration commands - passed through ssh
 QS_CONFIG_DIR=/var/quickstart/quickstart-configure

@@ -2,7 +2,7 @@ class quickbase::workingdir {
 
 	file { "/var/quickstart":
 	  ensure => "directory",
-	  owner  => $QS_USER,
+	  owner  => $quickbase::username,
 	  group  => "www-data",
 	  mode   => 770,
 	  require=> User["quickstart"],

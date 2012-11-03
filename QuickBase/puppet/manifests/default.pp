@@ -2,7 +2,7 @@
  *
  * These should be the steps to setup a non-virtual machine to use quickstart-configure
  * 
- *  - Include params.pp (written out by build-settings.sh)
+ *  *  - Include params.pp (written out by build-settings.sh)
  *  - Run QuickBase.pp to configure system
  *
  * Once complete, execution drops back to Vagrantfile, then build.sh continues.
@@ -15,6 +15,9 @@ Exec { path => "/bin:/sbin:/usr/bin:/usr/sbin" }
 /* entry point */
 node default {
   include params
-  include quickbase
+
+  class { "quickbase":
+	username => "$params::username",
+  }
 }
 
