@@ -1,7 +1,9 @@
 #!/bin/bash
 
 QS_CONFIRM=done
-. build-settings.sh
+. settings.sh
 
-vagrant up
+vagrant up --no-provision
 vagrant ssh
+
+

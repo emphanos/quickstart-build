@@ -11,7 +11,7 @@ class quickbase::gitrepo {
 
 	/* Clone read-only repo for further configuration */
 	exec { "quickstart-configure repo": 
-	  command => "git clone git://github.com/quickstart/quickstart-configure.git /var/quickstart/quickstart-configure",
+	  command => "git clone --recursive git://github.com/quickstart/quickstart-configure.git /var/quickstart/quickstart-configure",
 	  require => [ User["quickstart"], Package[[git]], File["/var/quickstart/quickstart-configure"] ],
 	  user => $quickbase::username,
 	  unless => "test -d /var/quickstart/quickstart-configure/.git",

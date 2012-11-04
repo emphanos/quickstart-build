@@ -3,13 +3,13 @@
 echo "*** Exporting $1"
 
 # ############################################## Get settings
-. build-settings.sh
+. settings.sh
 
 # ############################################## Export one
 
 ## Export .ova and .box files.  
 qs_export() {
-	#  Usage: qs_package "$QUICKBASE_VBOX" "$QUICKTEST_VBOX" "$QUICKTEST_FILE" 
+	#  Usage: qs_package "$QUICKBASE_VBOX" "$QUICKTEST_VBOX" "$QUICKTEST_FILEBASE" 
 	#  Uses $QS_CLEAN, $QS_ORGANIZATION, $QS_URL, $QS_VERSION
 
 	## Packaging
@@ -89,19 +89,13 @@ qs_export() {
 	echo "**   ...  Done"
 }
 
-if [ "$1" == "Base" ]; then
-	echo "** Export QuickBase  Nothing to do..."
-fi
-
-if [ "$1" == "Test" ]; then
-	qs_export "$QUICKBASE_UUID" "$QUICKTEST_VBOX" "$QUICKTEST_FILE"
-fi
-
-if [ "$1" == "Prod" ]; then
-	qs_export "$QUICKBASE_UUID" "$QUICKPROD_VBOX" "$QUICKPROD_FILE"
-fi
-
-if [ "$1" == "Dev" ]; then
-	qs_export "$QUICKBASE_UUID" "$QUICKDEV_VBOX" "$QUICKDEV_FILE"
+if [ "$1" == "test" ]; then
+	qs_export "$QUICKBASE_UUID" "$QUICKTEST_VBOX" "$QUICKTEST_FILEBASE"
+elif [ "$1" == "prod" ]; then
+	qs_export "$QUICKBASE_UUID" "$QUICKPROD_VBOX" "$QUICKPROD_FILEBASE"
+elif [ "$1" == "dev" ]; then
+	qs_export "$QUICKBASE_UUID" "$QUICKDEV_VBOX" "$QUICKDEV_FILEBASE"
+else
+	echo "Usage: $0 [ test | prod | dev ]"
 fi
 

@@ -8,6 +8,6 @@
 
 # clean up
 rm -rf $QS_OUTPUT/QuickSprint_build
-rm -f $QS_OUTPUT/$QUICKSPRINT_FILE.iso 
+rm -f $QS_OUTPUT/$QUICKSPRINT_FILE 
 
 

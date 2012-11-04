@@ -3,7 +3,10 @@
 echo "*** Cleaning $1"
 
 # ############################################## Get settings
-. build-settings.sh
+. settings.sh
+
+
+# ############################################## Functions
 
 ## Destroy a vm in Virtualbox.  Suppress "does not exist" errors.  
 qs_vbox_clean() {
@@ -21,29 +24,19 @@ qs_output_clean() {
 	echo "**   ...  Done"
 }
 
+
 # ############################################## Clean Build is cleaning vagrant
-if [ "$1" == "Base" ]; then
-	## Stop if already started!
-	qs_output_clean "$QUICKBASE_FILE"
-	qs_vbox_clean "$QUICKBASE_VBOX"
-	echo "** Removing working copy image from vagrant ..."
-	vagrant halt 2> /dev/null
-	vagrant destroy --force
-	echo "**   ...  Done"
-fi
 
-if [ "$1" == "Test" ]; then
-	qs_output_clean "$QUICKTEST_FILE"
+if [ "$1" == "test" ]; then
+	qs_output_clean "$QUICKTEST_FILEBASE"
 	qs_vbox_clean "$QUICKTEST_VBOX"
-fi
-
-if [ "$1" == "Prod" ]; then
-	qs_output_clean "$QUICKPROD_FILE"
+elif [ "$1" == "prod" ]; then
+	qs_output_clean "$QUICKPROD_FILEBASE"
 	qs_vbox_clean "$QUICKPROD_VBOX"
-fi
-
-if [ "$1" == "Dev" ]; then
-	qs_output_clean "$QUICKDEV_FILE"
+elif [ "$1" == "dev" ]; then
+	qs_output_clean "$QUICKDEV_FILEBASE"
 	qs_vbox_clean "$QUICKDEV_VBOX"
+else 
+	echo " Usage:  $0 [ test | prod | dev ]"
 fi
 

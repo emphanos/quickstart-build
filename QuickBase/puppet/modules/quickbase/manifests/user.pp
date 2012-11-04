@@ -5,7 +5,7 @@ class quickbase::user {
 	  name      => $quickbase::username,
 	  ensure    => present,
 	  password  => $quickbase::username,
-	  groups    => ["www-data", "root", "admin"],
+	  groups    => ["www-data", "root", "admin", "vagrant"],
 	  managehome => true,
           shell   => "/bin/bash",
 	}

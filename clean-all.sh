@@ -14,12 +14,16 @@
 #
 # Documentation: http://<url>
 
-# Build everything else
-. clean-box.sh Base
-. clean-box.sh Test
-. clean-box.sh Prod
-. clean-box.sh Dev
-. clean-iso.sh
+# Clean ISO
+. quicksprint-clean.sh
+
+# Clean Images
+. quickimage-clean.sh test
+. quickimage-clean.sh prod
+. quickimage-clean.sh dev
+
+# Clean Base
+. quickbase-clean.sh
 
 
 

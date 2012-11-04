@@ -22,7 +22,7 @@ QS_PROJECTS="All"
 # Where should the files go?
 QS_OUTPUT="./Output"
 
-# Are we in development mode?  Comment for official mode.  See also VagrantFile ~line 31
+# Are we in development mode?  Comment for official mode.  See also VagrantFile and quickimage-config.sh
 QS_DEBUG=On
 
 # ############################################## VBox and File names
@@ -30,18 +30,17 @@ QS_DEBUG=On
 # Packaging variables.  File names would have extension .ova for vbox and .box for vagrant.
 
 # Name of Virtual Machine in Virtualbox
-QUICKBASE_VBOX="QuickBase $QS_VERSION" 
 QUICKTEST_VBOX="QuickTest $QS_VERSION"
 QUICKPROD_VBOX="QuickProd $QS_VERSION"
 QUICKDEV_VBOX="QuickDev $QS_VERSION"
 
-QUICKBASE_FILE="QuickBase.$QS_VERSION"
-QUICKTEST_FILE="QuickTest.$QS_VERSION"
-QUICKPROD_FILE="QuickProd.$QS_VERSION"
-QUICKDEV_FILE="QuickDev.$QS_VERSION"
+# Output files (.ova and .box added during export)
+QUICKTEST_FILEBASE="QuickTest.$QS_VERSION"
+QUICKPROD_FILEBASE="QuickProd.$QS_VERSION"
+QUICKDEV_FILEBASE="QuickDev.$QS_VERSION"
 
 # QuickSprint settings
-QUICKSPRINT_FILE="QuickSprint.$QS_VERSION"
+QUICKSPRINT_FILE="QuickSprint.$QS_VERSION.iso"
 VBOX_HOST_WINDOWS_URL="http://download.virtualbox.org/virtualbox/4.2.2/VirtualBox-4.2.2-81494-Win.exe"
 VBOX_HOST_MAC_URL="http://download.virtualbox.org/virtualbox/4.2.2/VirtualBox-4.2.2-81494-OSX.dmg"
 
@@ -50,16 +49,19 @@ VBOX_HOST_MAC_URL="http://download.virtualbox.org/virtualbox/4.2.2/VirtualBox-4.
 
 ## Build Tools: Install VirtualBox, Vagrant, and Python if necessary
 
-# Verify/install Virtualbox   https://www.virtualbox.org/wiki/Downloads
-command -v VBoxManage >/dev/null 2>&1 || { echo "Installing virtualbox..."; sudo apt-get -yqq update; sudo apt-get -yqq install virtualbox; }
-# Verify/install vagrant      http://downloads.vagrantup.com/
-command -v vagrant >/dev/null 2>&1 || { echo "Installing vagrant..."; sudo apt-get -yqq update; sudo apt-get -yqq install vagrant; }
-# Verify/install python
+# python
 command -v python >/dev/null 2>&1 || { echo "Installing python..."; sudo apt-get -yqq update; sudo apt-get -yqq install python; }
-# Verify/install genisoimage (for QuickSprint.iso)
-command -v genisoimage >/dev/null 2>&1 || { echo "Installing python..."; sudo apt-get -yqq update; sudo apt-get -yqq install genisoimage; }
 
-## Get private key for vagrant.  We'll need this to setup non-vagrant ssh later.
+# Virtualbox   https://www.virtualbox.org/wiki/Downloads
+command -v VBoxManage >/dev/null 2>&1 || { echo "Installing virtualbox..."; sudo apt-get -yqq update; sudo apt-get -yqq install virtualbox; }
+
+# http://downloads.vagrantup.com/
+command -v vagrant >/dev/null 2>&1 || { echo "Installing vagrant..."; sudo apt-get -yqq update; sudo apt-get -yqq install vagrant; }
+
+# genisoimage (for QuickSprint.iso)
+command -v genisoimage >/dev/null 2>&1 || { echo "Installing genisoimage..."; sudo apt-get -yqq update; sudo apt-get -yqq install genisoimage; }
+
+# Get private key for vagrant.  We'll need this to setup non-vagrant ssh later.
 if [ ! -e ~/.ssh/vagrant ]; then wget https://raw.github.com/mitchellh/vagrant/master/keys/vagrant -O ~/.ssh/vagrant; fi
 chmod 600 ~/.ssh/vagrant
 
@@ -74,24 +76,6 @@ qs_get_base_uuid() {
 	fi
 }
 
-# ############################################## Puppet settings and commands
-
-echo "# params.pp configuration file.  Written on each execute of $0
-class params {
-  \$version = '$QS_VERSION'
-  \$username = '$QS_USER'
-}" > QuickBase/puppet/manifests/params.pp
-
-
-# Configuration commands - passed through ssh
-QS_CONFIG_DIR=/var/quickstart/quickstart-configure
-if [ -z $QS_DEBUG ]; then
-  QS_CONFIG_DIR=/var/quickstart/quickstart-configure-live
-fi
-
-QS_GO_QUICKTEST="sudo su $QS_USER -c \"cd $QS_CONFIG_DIR; . config.sh test\""
-QS_GO_QUICKPROD="sudo su $QS_USER -c \"cd $QS_CONFIG_DIR; . config.sh prod\""
-QS_GO_QUICKDEV="sudo su $QS_USER -c \"cd $QS_CONFIG_DIR; . config.sh dev\""
 
 
 # ############################################## Confirmation
