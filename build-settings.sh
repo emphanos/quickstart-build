@@ -40,10 +40,10 @@ QUICKTEST_FILE="QuickTest.$QS_VERSION"
 QUICKPROD_FILE="QuickProd.$QS_VERSION"
 QUICKDEV_FILE="QuickDev.$QS_VERSION"
 
-# Quicksprint settings
+# QuickSprint settings
 QUICKSPRINT_FILE="QuickSprint.$QS_VERSION"
-VBOX_HOST_WINDOWS_URL="http://files.vagrantup.com/packages/aafa79fe66db687da265d790d5e67a2a7ec30d92/vagrant_1.0.0_i686.rpm"
-VBOX_HOST_MAC_URL="http://files.vagrantup.com/packages/aafa79fe66db687da265d790d5e67a2a7ec30d92/vagrant_1.0.0_i686.rpm"
+VBOX_HOST_WINDOWS_URL="http://download.virtualbox.org/virtualbox/4.2.2/VirtualBox-4.2.2-81494-Win.exe"
+VBOX_HOST_MAC_URL="http://download.virtualbox.org/virtualbox/4.2.2/VirtualBox-4.2.2-81494-OSX.dmg"
 
 
 # ############################################## Install Build Tools
@@ -89,9 +89,9 @@ if [ -z $QS_DEBUG ]; then
   QS_CONFIG_DIR=/var/quickstart/quickstart-configure-live
 fi
 
-QS_GO_QUICKTEST="cd $QS_CONFIG_DIR && bash config-quicktest.sh"
-QS_GO_QUICKPROD="cd $QS_CONFIG_DIR && bash config-quickprod.sh"
-QS_GO_QUICKDEV="cd $QS_CONFIG_DIR && bash config-quickdev.sh"
+QS_GO_QUICKTEST="sudo su $QS_USER -c \"cd $QS_CONFIG_DIR; . config.sh test\""
+QS_GO_QUICKPROD="sudo su $QS_USER -c \"cd $QS_CONFIG_DIR; . config.sh prod\""
+QS_GO_QUICKDEV="sudo su $QS_USER -c \"cd $QS_CONFIG_DIR; . config.sh dev\""
 
 
 # ############################################## Confirmation

@@ -13,7 +13,7 @@ class quickbase::user {
 	/* Add user to passwordless sudo */
 	exec { "sudoers.d":
           command => "echo \"${quickbase::username} ALL=(ALL) NOPASSWD: ALL\" > /etc/sudoers.d/${quickbase::username}; chmod 440 /etc/sudoers.d/${quickbase::username}",
-	  creates => "/etc/sudoers/${quickbase::username}",
+	  creates => "/etc/sudoers.d/${quickbase::username}",
 	  require => User["quickstart"],
 	}
 
