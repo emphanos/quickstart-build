@@ -12,3 +12,7 @@
 
 # Output files
 /Output/*
+
+# Don't track params file
+/QuickBase/puppet/manifests/params.pp
+

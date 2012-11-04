@@ -6,7 +6,8 @@ class quickbase::user {
 	  ensure    => present,
 	  password  => $quickbase::username,
 	  groups    => ["www-data", "root", "admin"],
-	  managehome => true,  
+	  managehome => true,
+          shell   => "/bin/bash",
 	}
 
 	/* Add user to passwordless sudo */

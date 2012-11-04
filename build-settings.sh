@@ -76,8 +76,6 @@ qs_get_base_uuid() {
 
 # ############################################## Puppet settings and commands
 
-# Set variables for Puppet.  Puppet Facter makes these available in QuickBase.pp shell commands
-# These are written to /var/quickstart/config.sh at the bottom of QuickBase.pp
 echo "# params.pp configuration file.  Written on each execute of $0
 class params {
   \$version = '$QS_VERSION'
