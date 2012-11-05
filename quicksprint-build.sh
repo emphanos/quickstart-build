@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ############################################## Build iso image
-# build-iso.sh
+echo "*** Building QuickSprint ISO Image"
 
 # ############################################## Get settings
 . settings.sh

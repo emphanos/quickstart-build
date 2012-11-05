@@ -1,6 +1,7 @@
 class quickbase::gitrepo {
 
 	/* Create quickstart configuration code directory */
+	/* FIXME is this actually needed? */
 	file { "/var/quickstart/quickstart-configure":
 	  ensure => "directory",
 	  owner  => $quickbase::username,

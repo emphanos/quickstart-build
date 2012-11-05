@@ -99,7 +99,7 @@ Strange errors?  Did you run out of disk space?
 df -h $QS_OUTPUT
 echo ""
 QS_CONFIRM=done
-read -p "Press enter to continue or ctrl-c to quit"
+#read -p "Press enter to continue or ctrl-c to quit"
 fi
 
 

@@ -1,10 +1,9 @@
 #!/bin/bash
 
-# ############################################## Clean iso image
-# clean-iso.sh
+echo "*** Cleaning QuickSprint ISO Image"
 
 # ############################################## Get settings
-. build-settings.sh
+. settings.sh
 
 # clean up
 rm -rf $QS_OUTPUT/QuickSprint_build
