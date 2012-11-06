@@ -9,8 +9,8 @@ echo "*** Configuring $1"
 # To debug, use a "shared folder" mounted, so we don't have to push changes through git.
 QS_CONFIG_DIR=/var/quickstart/quickstart-configure
 if [ ! -z "$QS_DEBUG" ]; then
-  echo " *** DEBUG MODE ON.  Using $QS_CONFIG_DIR"
   QS_CONFIG_DIR=/var/quickstart/quickstart-configure-live
+  echo " *** DEBUG MODE ON.  Using $QS_CONFIG_DIR"
 fi
 
 # Configuration commands - passed through ssh
