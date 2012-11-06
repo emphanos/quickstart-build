@@ -13,16 +13,16 @@ if [ ! -f $QS_OUTPUT/$QUICKDEV_FILE.ova ] ; then
 fi;
 
 # Set temp dir and clean up
-SAVEDIR=`pwd`
 QUICKSPRINT_TEMP=$QS_OUTPUT/QuickSprint_build
-
-. clean-iso.sh
+. quicksprint-clean.sh
 mkdir $QUICKSPRINT_TEMP
 
 # Put files into temp dir
 cp QuickSprint/* $QUICKSPRINT_TEMP
 cp $QS_OUTPUT/$QUICKDEV_FILEBASE.ova $QUICKSPRINT_TEMP
 
+# Download Virtualbox Installers
+SAVEDIR=`pwd`
 cd $QUICKSPRINT_TEMP
 wget $VBOX_HOST_WINDOWS_URL 
 wget $VBOX_HOST_MAC_URL

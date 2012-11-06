@@ -31,6 +31,7 @@ if [ -z $QUICKBASE_UUID ]; then
 	. quickbase-build.sh
 fi
 
+# QS_GO is used below!
 if [ "$1" == 'test' ]; then
   QS_GO=$QS_GO_QUICKTEST
 elif [ "$1" == 'prod' ]; then 
@@ -55,7 +56,7 @@ if [ $? -gt 0 ]; then QS_ERROR="Vagrant up error"; exit; fi
 
 # Configure the image
 echo "** Configuring QuickBase working copy as $1 ..."
-vagrant ssh -c "$QS_GO_QUICKTEST"
+vagrant ssh -c "$QS_GO"
 if [ $? -gt 0 ]; then QS_ERROR="Vagrant ssh error"; exit; fi
 
 # Done
