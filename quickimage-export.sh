@@ -100,3 +100,5 @@ else
 	echo "Usage: $0 [ test | prod | dev ]"
 fi
 
+. finish.sh quickimage-export.sh
+

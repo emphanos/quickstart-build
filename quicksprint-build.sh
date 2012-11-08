@@ -13,7 +13,6 @@ if [ ! -f $QS_OUTPUT/$QUICKDEV_FILEBASE.ova ] ; then
 fi;
 
 # Set temp dir and clean up
-QUICKSPRINT_TEMP=QuickSprint_build
 . quicksprint-clean.sh
 mkdir $QUICKSPRINT_TEMP
 
@@ -32,4 +31,6 @@ cd $SAVEDIR
 # FIXME see http://www.debianadmin.com/genisoimage-creates-iso-9660-cd-rom-filesystem-images.html#more-728
 # For how to create custom readme's per file systems.  May not work with iamge
 genisoimage -r -J -hfs -o $QS_OUTPUT/$QUICKSPRINT_FILE $QUICKSPRINT_TEMP/
+
+. finish.sh quicksprint-build.sh
 

@@ -1,6 +1,10 @@
 #!/bin/bash
 
-. settings.sh
+if [ -f ~!/.ssh/mc-desktop_rsa ] ; then  
+	. settings.sh
 
-scp $QS_OUTPUT/* drupal-quickstart@ftp-osl.osuosl.org:data
+	scp $QS_OUTPUT/*.iso drupal-quickstart@ftp-osl.osuosl.org:data
+	scp $QS_OUTPUT/*.ova drupal-quickstart@ftp-osl.osuosl.org:data
 
+	. finish.sh publish-all.sh
+fi

@@ -6,7 +6,7 @@ echo "*** Cleaning QuickSprint ISO Image"
 . settings.sh
 
 # clean up
-rm -rf $QS_OUTPUT/QuickSprint_build
+rm -rf $QUICKSPRINT_TEMP
 rm -f $QS_OUTPUT/$QUICKSPRINT_FILE 
 
 

@@ -42,11 +42,14 @@ QUICKDEV_FILEBASE="QuickDev.$QS_VERSION"
 
 # QuickSprint settings
 QUICKSPRINT_FILE="QuickSprint.$QS_VERSION.iso"
-VBOX_HOST_WINDOWS_URL="http://download.virtualbox.org/virtualbox/4.2.2/VirtualBox-4.2.2-81494-Win.exe"
-VBOX_HOST_MAC_URL="http://download.virtualbox.org/virtualbox/4.2.2/VirtualBox-4.2.2-81494-OSX.dmg"
+QUICKSPRINT_TEMP="QuickSprint_build"
+VBOX_HOST_WINDOWS_URL="http://download.virtualbox.org/virtualbox/4.2.4/VirtualBox-4.2.4-81684-Win.exe"
+VBOX_HOST_MAC_URL="http://download.virtualbox.org/virtualbox/4.2.4/VirtualBox-4.2.4-81684-OSX.dmg"
 
 # Time started
-QS_STARTTIME=`date`
+if [ -z $QS_TIMESTART ] ; then
+	QS_TIMESTART=`date`
+fi
 
 # ############################################## Install Build Tools
 

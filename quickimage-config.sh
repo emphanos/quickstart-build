@@ -65,3 +65,5 @@ vagrant halt
 
 echo "**   ...  Done"
 
+. finish.sh quickimage-config.sh
+

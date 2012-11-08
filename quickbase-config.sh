@@ -27,3 +27,6 @@ qs_get_base_uuid
 vboxmanage snapshot $QUICKBASE_UUID take quickbase
 if [ $? -gt 0 ]; then QS_ERROR=" !!! Vboxmanage error"; exit; fi
 
+. finish.sh quickbase-config.sh
+
+

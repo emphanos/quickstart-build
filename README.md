@@ -9,80 +9,121 @@ $ bash build.sh
 
 To debug, include -x on any bash command.  E.g. bash -x build.sh
 
+=== To build an official version
 
-There are 5 stages to the build:
+1) Update settings.sh
+ - Update Quickstart strings (QS_VERSION, QS_VERSION_NODOTS)
+ - Update the QuickSprint image file /QuickSprint/Disk-Label.xcf (Gimp)
+ - Check virtualbox installer download strings (www.virtualbox.org)
+
+2) Run the build script
+ - bash build-all.sh 
+
+=== Overview
+
+The build is broken into several steps.  Steps were chosen on where work could be easily cached:
+ * Ubuntu 12.04 image download
+   - Download and Cache "precise64" Vagrant box from VagrantUp.com.
+   - https://github.com/quickstart/quickstart-build/blob/dev/QuickBox/Vagrantfile
+   - This happens internally in Vagrant.  To clear cache: vagrant box remove precise64
+   - Built automatically in build scripts
  * QuickBox
-   - Download "precise64" Vagrant box from VagrantUp.com.
-   - Run updates and repackage as QuickBox box locally 
+   - Basic Ubuntu install.  Run updates and cache locally (don't dl 200mb every test run)
+   - QuickBase is as close to a physical install of Ubuntu as possible to enable using QS outside a VM
+   - https://github.com/quickstart/quickstart-build/blob/dev/QuickBox/rebuild.sh
+   - This happens internally in Vagrant.  To clear cache: vagrant box remove QuickBox
+   - Built automatically in build scripts
  * QuickBase
    - Minimum bootstrap to run quickstart-configure build scripts
    - Quickstart user, working dir, minimal packages, git clone quickstart-configure
+   - https://github.com/quickstart/quickstart-build/blob/dev/quickbase-config.sh
+   - Makes a VBox "snapshot" that QuickTest/QuickProd/QuickDev restore before building.
+   - To clear cache: bash quickbase-clean.sh
+   - Built automatically in build scripts
  * QuickTest
-   - Build a headless development lamp server
-   - Configure the lamp server for production and internet
+   - Build a headless development lamp server configured for testing
+   - https://github.com/quickstart/quickstart-build/blob/dev/quickimage-config.sh
+   - To clear cache: bash quickimage-clean.sh test
+   - To build: bash quickimage-build.sh test
+   - Will automatically build missing previous steps.  Restores snapshot of Quickbase
  * QuickDev
-   - Configure the server back for development
-   - Install a window manager and graphical dev tools
+   - Configure the server for desktop development
+   - https://github.com/quickstart/quickstart-build/blob/dev/quickimage-config.sh
+   - To clear cache: bash quickimage-clean.sh test
+   - To build: bash quickimage-build.sh test
+   - Will automatically build missing previous steps.  Restores snapshot of Quickbase
+
+Packaging and publishing:
+ * QuickSprint
+   - QuickSprint is an ISO designed for use in sprints.  We're collaborating with Drupal Ladder to offer this for people organizing sprints.
+   - It's an ISO with the QuickDev.ova, a download of the Windows and Mac VBox installer, and files in the QuickSprint folder
+ * publish-all.sh 
+   - scp's the files to Drupal Quickstart's account at OSUOSL.  Requires private key to work.
+
+
+=== 0) Ubuntu 12.04 LTS 64 bit "precise64" image from vagrantup.com
+
+Download and Cache "precise64" Vagrant box from VagrantUp.com.
+
+   - This happens internally in Vagrant.
+   - https://github.com/quickstart/quickstart-build/blob/dev/QuickBox/Vagrantfile
+   - To clear cache: vagrant box remove precise64
+   - Built automatically in build scripts
 
 === 1) QuickBox
 
-This is a Vagrant "Box" image of Ubuntu 12.04 LTS with no customization.
-The purpose of this step is to do as much downloading as possible before configuration, then cache that as a Vagrant "Box" locally
+Download all official updates and repackage image as QuickBox.  This saves time during development by caching updates locally.
 
- - based on vagrantup.com's: http://files.vagrantup.com/precise64.box
- - updates downloaded and applied
- - exported and added in Vagrant as "QuickBox"
-
-QuickBox has a separate Vagrantfile and a rebuild.sh in the QuickBox directory.
-This can be rerun if your spending alot of time waiting for initial updates to download and install.
-
- - bash -x BaseBox/rebuild.sh
-
-This step could be enhanced with VeeWee.
-
+   - Basic Ubuntu install.  Run updates and cache locally
+   - QuickBase is as close to a physical install of Ubuntu as possible to enable using QS outside a VM
+   - https://github.com/quickstart/quickstart-build/blob/dev/QuickBox/rebuild.sh
+   - This happens internally in Vagrant.  To clear cache: vagrant box remove QuickBox
+   - Built automatically in build scripts
 
 === 2) QuickBase
 
-This is a Vagrant installation of QuickBox.  The Vagrant copy is the "working copy" for customizing the images.  
+The purpose of QuickBase is to build a minimumly viable system for Puppet customization.  
 
-The purpose of QuickBuild is to build a minimumly viable system for Puppet customization.
+For a non-virtual installation, all the QuickBase steps would be done manually.
+
+   - Quickstart user, working dir, minimal packages, git clone quickstart-configure
+   - Minimum bootstrap to run quickstart-configure build scripts
+   - https://github.com/quickstart/quickstart-build/blob/dev/quickbase-config.sh
+   - Makes a VBox "snapshot" that QuickTest/QuickProd/QuickDev restore before building.
+   - To clear cache: bash quickbase-clean.sh
+   - Built automatically in build scripts
+
+=== 3) QuickTest
+
+Build a headless development lamp server configured for testing.  Uses a config.sh script in quickstart-configure repo.
+
+   - https://github.com/quickstart/quickstart-build/blob/dev/quickimage-config.sh
+   - Restores snapshot of QuickBase (to clear any previous config)
+   - https://github.com/quickstart/quickstart-configure/blob/master/config.sh
+
+   - To clear cache: bash quickimage-clean.sh test
+   - To build: bash quickimage-build.sh test
+   - Will automatically build missing previous steps
+   - Will export QuickTest.box and QuickTest.ova files 
 
 During export, and "export copy" VM is made, so the images can be secured (remove the insecure Vagrant private key (link).
+The .box files are always insecure with ssh, but can work with Vagrant.
+The .ova files remove this security hole, and can be imported manually into Virtualbox
 
- - based on QuickBox
- - installs packages
- - creates quickstart user
- - git clones puppet repo: quickstart-configure
+=== 4) QuickDev
 
-QuickBuild is a "Working Copy" image configured by Puppet.
-The Puppet script "QuickBuild" is run on every "vagrant up" so it's meant to be lean, mean, and re-entrant.
-This step rebuilds the Vagrant "working copy" image that is customized by QuickTest, QuickProd, and QuickDev.
+Build a desktop development environment.  Uses same scripts as QuickTest, just different puppet file.
 
-The build can be interacted with using:
+   - https://github.com/quickstart/quickstart-build/blob/dev/quickimage-config.sh
+   - Restores snapshot of QuickBase (to clear any previous config)
+   - https://github.com/quickstart/quickstart-configure/blob/master/config.sh
 
-	$ bash build-box.sh Base   - clean, config, export
+   - To clear cache: bash quickimage-clean.sh dev
+   - To build: bash quickimage-build.sh dev
+   - Will automatically build missing previous steps
+   - Will export QuickTest.box and QuickTest.ova files 
 
-	$ bash clean-box.sh Base   - clean the vagrant working copy, QuickBuild export copy, exported files
-	$ bash config-box.sh Base  - rebuild the "Working Copy"
-	$ bash export-box.sh Base  - copy the "working copy" to QuickBuild export copy, then export files
+During export, and "export copy" VM is made, so the images can be secured (remove the insecure Vagrant private key (link).
+The .box files are always insecure with ssh, but can work with Vagrant.
+The .ova files remove this security hole, and can be imported manually into Virtualbox
 
-
-3,4,5) QuickTest, QuickProd, QuickDev
-
-These are the project deliverables described in the Design and Requirements section.
-
-They use similar commands.
-
-	$ bash build-box.sh [Test|Prod|Dev]   - clean, config, export
-
-	$ bash clean-box.sh [Test|Prod|Dev]   - clean, the export copy, exported files.  Leaves the working copy.
-	$ bash config-box.sh [Test|Prod|Dev]  - reconfigure the "working copy" using Puppet scripts.  Will rebuild "working copy" if necessary
-	$ bash export-box.sh [Test|Prod|Dev]  - copy the "working copy" to export copy, then export files
-
-Note that the "working copy" Vagrant image has state.  Running the steps out of order may include unwanted config and files.
-
-$ bash build-box.sh QuickDev
-$ bash build-box.sh QuickProd
-$ bash bulld-box.sh QuickTest
-
-May not produce what you want.
