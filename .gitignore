@@ -16,3 +16,5 @@
 # Don't track params file
 /QuickBase/puppet/manifests/params.pp
 
+# Don't track Quicksprint build directory
+QuickSprint_build

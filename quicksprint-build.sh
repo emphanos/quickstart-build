@@ -8,12 +8,12 @@ echo "*** Building QuickSprint ISO Image"
 
 # ############################################## Build
 
-if [ ! -f $QS_OUTPUT/$QUICKDEV_FILE.ova ] ; then
+if [ ! -f $QS_OUTPUT/$QUICKDEV_FILEBASE.ova ] ; then
 	. quickimage-build.sh dev
 fi;
 
 # Set temp dir and clean up
-QUICKSPRINT_TEMP=$QS_OUTPUT/QuickSprint_build
+QUICKSPRINT_TEMP=QuickSprint_build
 . quicksprint-clean.sh
 mkdir $QUICKSPRINT_TEMP
 

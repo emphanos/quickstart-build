@@ -62,20 +62,21 @@ qs_export() {
 
 	echo "* Booting to remove vagrant well-known private key from $2"
 	vboxmanage modifyvm "$2" --natpf1 "guestssh,tcp,127.0.0.1,2223,,22"
-	vboxmanage startvm "$2"; sleep 20
+	vboxmanage startvm "$2"; sleep 40
 
 	# Remove vagrant ssh public key.  No way for vagrant to login ssh after this
 	ssh-add ~/.ssh/vagrant
 	ssh -p 2223  -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@127.0.0.1 "rm ~/.ssh/authorized_keys; sudo poweroff"
 
-	# Wait for power off
-	sleep 10; 
+	echo " * Wait for power off"
+	sleep 40; 
 
-	# unconfigure ssh
+	# This error means sleep above isn't long enough VBoxManage: error: The machine 'QuickDev 3.0alpha1' is already locked for a session (or being unlocked)
+	echo " * unconfigure ssh"
 	vboxmanage modifyvm "$2" --natpf1 delete "guestssh"
 
-	# Export the file
 	echo "* Exporting ova"
+	sleep 5
 	vboxmanage export "$2" --output "$QS_OVAFILE" \
 	  --manifest \
 	  --vsys 0 \

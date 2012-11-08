@@ -4,8 +4,8 @@
 # ############################################## User configurable settings
 
 # Packaging variables
-QS_VERSION="3.0"
-QS_VERSION_NODOTS="3_0"
+QS_VERSION="3.0alpha1"
+QS_VERSION_NODOTS="3_0alpha1"
 QS_ORGANIZATION="Drupal Quickstart"
 QS_URL="http://DrupalQuickstart.org"
 
@@ -23,7 +23,8 @@ QS_PROJECTS="All"
 QS_OUTPUT="./Output"
 
 # Are we in development mode?  Comment for official mode.  See also VagrantFile and quickimage-config.sh
-QS_DEBUG=On
+# comment to turn off
+QS_DEBUG=debug
 
 # ############################################## VBox and File names
 
@@ -44,6 +45,8 @@ QUICKSPRINT_FILE="QuickSprint.$QS_VERSION.iso"
 VBOX_HOST_WINDOWS_URL="http://download.virtualbox.org/virtualbox/4.2.2/VirtualBox-4.2.2-81494-Win.exe"
 VBOX_HOST_MAC_URL="http://download.virtualbox.org/virtualbox/4.2.2/VirtualBox-4.2.2-81494-OSX.dmg"
 
+# Time started
+QS_STARTTIME=`date`
 
 # ############################################## Install Build Tools
 

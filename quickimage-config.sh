@@ -46,6 +46,7 @@ fi
 # Restore QuickBase snapshot
 echo "** Restoring snapshot of QuickBase working copy ..."
 vagrant halt
+sleep 10
 vboxmanage snapshot $QUICKBASE_UUID restore quickbase
 if [ $? -gt 0 ]; then QS_ERROR=" !!! Vboxmanage error"; exit; fi
 
@@ -56,7 +57,7 @@ if [ $? -gt 0 ]; then QS_ERROR="Vagrant up error"; exit; fi
 
 # Configure the image
 echo "** Configuring QuickBase working copy as $1 ..."
-vagrant ssh -c "$QS_GO"
+vagrant ssh -c "$QS_GO $QS_DEBUG"
 if [ $? -gt 0 ]; then QS_ERROR="Vagrant ssh error"; exit; fi
 
 # Done

@@ -23,11 +23,11 @@
 # Build the base image
 . quickbase-build.sh
 . quickimage-build.sh test
-. quickimage-build.sh prod
+#. quickimage-build.sh prod  This will happen in a future release
 . quickimage-build.sh dev
 . quicksprint-build.sh
 
-
+. finish.sh build-all.sh
 
 
 
