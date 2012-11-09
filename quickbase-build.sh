@@ -14,8 +14,9 @@ if [ -z `vagrant box list | grep QuickBox` ]; then
   ( cd QuickBox; bash rebuild.sh )  # ( ) runs commands in it's own shell
 else
   echo "*** Using existing QuickBox.  
+ * 'vagrant box remove precise64' to force redownload of base image
  * 'vagrant box remove QuickBox' to force re-update
- * 'vagrant box remove precise64' to force redownload of base image"
+"
 fi
 
 

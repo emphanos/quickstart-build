@@ -16,7 +16,7 @@ Vagrant::Config.run do |config|
   config.vm.customize ["modifyvm", :id, "--accelerate3d", "on"]
 
   # Configure VM OS
-  config.vm.host_name = "qs-working-copy"
+  config.vm.host_name = "quickbase"
 
   # Configure VM Network
   # Forward a port from the guest to the host, which allows for outside
@@ -40,7 +40,7 @@ Vagrant::Config.run do |config|
     puppet.manifest_file  = "default.pp"
     puppet.options = [
       '--verbose',
-#      '--debug',
+      '--debug',
     ]
   end
 

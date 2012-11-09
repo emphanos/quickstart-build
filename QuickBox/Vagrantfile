@@ -20,7 +20,8 @@ Vagrant::Config.run do |config|
   # Provision with inline shell.  This just runs updates and fixes grub
   Vagrant::Config.run do |config|
     # See https://bugs.launchpad.net/ubuntu/+bug/1009294
-    config.vm.provision :shell, :inline => "DEBIAN_FRONTEND=noninteractive dpkg-reconfigure grub-pc; sudo apt-get -yq update; sudo apt-get -yq upgrade; sudo apt-get -yq autoremove"
+    # ruby-shadow installed here because otherwise can't set user password
+    config.vm.provision :shell, :inline => "DEBIAN_FRONTEND=noninteractive dpkg-reconfigure grub-pc; sudo apt-get -yq update; sudo apt-get -yq upgrade; sudo apt-get -yq autoremove; sudo apt-get -yq install git puppet ruby-full rubygems; sudo gem install ruby-shadow"
   end
 
 end

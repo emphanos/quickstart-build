@@ -47,7 +47,7 @@ VBOX_HOST_WINDOWS_URL="http://download.virtualbox.org/virtualbox/4.2.4/VirtualBo
 VBOX_HOST_MAC_URL="http://download.virtualbox.org/virtualbox/4.2.4/VirtualBox-4.2.4-81684-OSX.dmg"
 
 # Time started
-if [ -z $QS_TIMESTART ] ; then
+if [ -z "$QS_TIMESTART" ] ; then
 	QS_TIMESTART=`date`
 fi
 
