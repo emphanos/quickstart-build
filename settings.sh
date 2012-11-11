@@ -24,7 +24,7 @@ QS_OUTPUT="./Output"
 
 # Are we in development mode?  Comment for official mode.  See also VagrantFile and quickimage-config.sh
 # comment to turn off
-QS_DEBUG=debug
+#QS_DEBUG=debug
 
 # ############################################## VBox and File names
 

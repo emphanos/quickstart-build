@@ -31,7 +31,7 @@ if [ -z $QUICKBASE_UUID ]; then
 	. quickbase-build.sh
 fi
 
-# QS_GO is used below!
+# QS_GO defined here, used below!
 if [ "$1" == 'test' ]; then
   QS_GO=$QS_GO_QUICKTEST
 elif [ "$1" == 'prod' ]; then 
@@ -43,15 +43,10 @@ else
   exit
 fi
 
-if [ ! -z "$QS_DEBUG" ]; then
-  echo " *** DEBUG MODE OFF.  Prepping for export"
-  vagrant ssh -c "$QS_CONFIG_DIR/exportprep.sh"
-fi
-
 # Restore QuickBase snapshot
 echo "** Restoring snapshot of QuickBase working copy ..."
 vagrant halt
-sleep 10
+sleep 20
 vboxmanage snapshot $QUICKBASE_UUID restorecurrent
 if [ $? -gt 0 ]; then QS_ERROR=" !!! Vboxmanage error"; exit; fi
 
@@ -64,6 +59,12 @@ if [ $? -gt 0 ]; then QS_ERROR="Vagrant up error"; exit; fi
 echo "** Configuring QuickBase working copy as $1 ..."
 vagrant ssh -c "$QS_GO $QS_DEBUG"
 if [ $? -gt 0 ]; then QS_ERROR="Vagrant ssh error"; exit; fi
+
+# Prep for export if appropriateS
+if [ -z "$QS_DEBUG" ]; then
+  echo " *** DEBUG MODE OFF.  Prepping for export"
+  vagrant ssh -c "sudo su $QS_USER -c \". $QS_CONFIG_DIR/exportprep.sh\""
+fi
 
 # Done
 vagrant halt
