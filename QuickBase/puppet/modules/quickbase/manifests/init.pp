@@ -26,7 +26,7 @@ class quickbase( $username ) {
 
 
 	/* To set password, these packages must already be installed.  Moved to QuickBox/Vagrantfile
-	package { ['puppet', 'ruby-full', 'rubygems']:
+	package { ['puppet', 'ruby-full', 'rubygems', 'augeas-tools', 'libaugeas-ruby']:
 		ensure => installed,
 		require => Exec[update],
 	}

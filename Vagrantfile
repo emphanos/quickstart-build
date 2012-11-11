@@ -40,7 +40,7 @@ Vagrant::Config.run do |config|
     puppet.manifest_file  = "default.pp"
     puppet.options = [
       '--verbose',
-      '--debug',
+#      '--debug',
     ]
   end
 

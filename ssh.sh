@@ -3,7 +3,7 @@
 QS_CONFIRM=done
 . settings.sh
 
-vagrant up --no-provision
+vagrant up
 vagrant ssh
 
 
