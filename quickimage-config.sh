@@ -47,7 +47,7 @@ fi
 echo "** Restoring snapshot of QuickBase working copy ..."
 vagrant halt
 sleep 10
-vboxmanage snapshot $QUICKBASE_UUID restore quickbase
+vboxmanage snapshot $QUICKBASE_UUID restorecurrent
 if [ $? -gt 0 ]; then QS_ERROR=" !!! Vboxmanage error"; exit; fi
 
 # Start vagrant (no need to rerun provision scripts)
