@@ -43,6 +43,11 @@ else
   exit
 fi
 
+if [ ! -z "$QS_DEBUG" ]; then
+  echo " *** DEBUG MODE OFF.  Prepping for export"
+  vagrant ssh -c "$QS_CONFIG_DIR/exportprep.sh"
+fi
+
 # Restore QuickBase snapshot
 echo "** Restoring snapshot of QuickBase working copy ..."
 vagrant halt

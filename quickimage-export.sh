@@ -9,8 +9,8 @@ echo "*** Exporting $1"
 
 ## Export .ova and .box files.  
 qs_export() {
-	#  Usage: qs_package "$QUICKBASE_VBOX" "$QUICKTEST_VBOX" "$QUICKTEST_FILEBASE" 
-	#  Uses $QS_CLEAN, $QS_ORGANIZATION, $QS_URL, $QS_VERSION
+	#  Usage: qs_export "$QUICKBASE_UUID" "$QUICKTEST_VBOX" "$QUICKTEST_FILEBASE"
+	#  Uses variables $QS_CLEAN, $QS_ORGANIZATION, $QS_URL, $QS_VERSION
 
 	## Packaging
 	#  Vagrant puts an insecure private key in authorized_keys.  We need to remove the key for ova packaging
@@ -24,28 +24,20 @@ qs_export() {
 	QS_BOXFILE="$QS_OUTPUT"/"$3.box"
 	QS_OVAFILE="$QS_OUTPUT"/"$3.ova"
 
+	## Remove old files
+	echo "** Removing export images: $QS_BOXFILE $QS_OVAFILE ..."
+	rm -f "$QS_BOXFILE"
+	rm -f "$QS_OVAFILE"
+	echo "**   ...  Done"
+
 	## Make a copy
 	echo "** Removing export copy: $2  ..."
 	qs_vbox_clean "$2"
 	echo "**   ...  Done"
 
 	echo "** Copying working copy: $1 to export copy: $2  ..."
-
-	# if vagrant hasn't been "up" we won't know it's uuid.  so we have to boot it to find out.
-	if [ -z "$1" ]; then
-		vagrant up
-		qs_get_base_uuid
-		vagrant halt
-	fi
-
 	vboxmanage clonevm "$1" --name "$2" --register
 	if [ $? -gt 0 ]; then echo "*** !!! VBoxManage clonevm error"; exit; fi
-	echo "**   ...  Done"
-
-	## Remove old files
-	echo "** Removing export images: $QS_BOXFILE $QS_OVAFILE ..."
-	rm -f "$QS_BOXFILE"
-	rm -f "$QS_OVAFILE"
 	echo "**   ...  Done"
 	
 	## Package with Vagrant
