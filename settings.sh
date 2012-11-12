@@ -4,8 +4,8 @@
 # ############################################## User configurable settings
 
 # Packaging variables
-QS_VERSION="3.0alpha1"
-QS_VERSION_NODOTS="3_0alpha1"
+QS_VERSION="3.0alpha2"
+QS_VERSION_NODOTS="3_0a2"
 QS_ORGANIZATION="Drupal Quickstart"
 QS_URL="http://DrupalQuickstart.org"
 

@@ -8,7 +8,9 @@ echo "*** Configuring QuickBase"
 echo "# params.pp configuration file.  Written on each execute of $0
 class params {
   \$version = '$QS_VERSION'
+  \$version_nodots = '$QS_VERSION_NODOTS'
   \$username = '$QS_USER'
+  \$hostname = 'qs$QS_VERSION_NODOTS'
 }" > QuickBase/puppet/manifests/params.pp
 
 
