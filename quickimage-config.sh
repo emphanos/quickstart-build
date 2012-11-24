@@ -69,21 +69,22 @@ if [ "$1" == 'dev' ]; then
 	# reboot in graphics mode
 	vagrant halt
 	sleep 20
-	vagrant up 
 	echo "** Starting manual configuration of QuickBase working copy as $1 ..."
-	echo "=======================
-***
-***    1) Click the circle and select Cinnamon
-***    2) Login as $QS_USER  (password $QS_USER)
-***    3) Start terminal (Ctrl-Alt-T)
-***    4) $ cd /var/quickstart/quickstart-configure
-***    5) $ bash manualconfig.sh
-***    6) Follow the instructions
-***
+	INSTRUCTIONS="======================= \n
+=== \n
+===    1) Click the circle and select Cinnamon \n
+===    2) Login as $QS_USER  (password $QS_USER) \n
+===    3) Start terminal (Ctrl-Alt-T) \n
+===    4) $ cd /var/quickstart/quickstart-configure \n
+===    5) $ bash manualconfig.sh \n
+===    6) Follow the instructions \n
+=== \n
 ========================="
+	echo -e $INSTRUCTIONS
+	vagrant up 
+	echo -e $INSTRUCTIONS
+	echo "Press any key to continue..."
 	read
-	
-	vagrant ssh -c "$QS_GO $QS_DEBUG"
 	if [ $? -gt 0 ]; then QS_ERROR="Vagrant ssh error"; exit; fi
 fi
 

@@ -11,9 +11,13 @@ Vagrant::Config.run do |config|
   config.vm.boot_mode = :gui
 
   # Configure VM Hardware
-  config.vm.customize ["modifyvm", :id, "--memory", 2048]
-  config.vm.customize ["modifyvm", :id, "--vram", 128]
-  config.vm.customize ["modifyvm", :id, "--accelerate3d", "on"]
+  config.vm.customize ["modifyvm", :id,
+			"--cpus", "4",
+			"--memory", "2048",
+			"--vram", "128",
+			"--accelerate3d", "on",
+			"--clipboard", "bidirectional"
+  ]
 
   # Configure VM OS
   config.vm.host_name = "quickbase"

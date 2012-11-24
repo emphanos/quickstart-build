@@ -12,9 +12,23 @@ class quickbase( $username ) {
 	Exec { path => '/usr/bin:/bin:/usr/sbin:/sbin' }
 
 
+	/* if in debug mode, get updates from host's apt-cacher */
+	if $params::debug == 'debug' {
+		file { "/etc/apt/apt.conf.d/01proxy":
+			content => "Acquire::http::Proxy \"http://10.0.2.2:3142\";",
+		}
+	} else {
+		file { "/etc/apt/apt.conf.d/01proxy":
+			content => "",
+		}
+	}
+
+
+
 	/* download and apply OS updates */
 	exec {"update":
 		command => "sudo apt-get -yq update; sudo apt-get -yq upgrade; sudo apt-get -yq autoremove",
+		require => File["/etc/apt/apt.conf.d/01proxy"],
 	}
 
 
@@ -74,6 +88,5 @@ class quickbase( $username ) {
 	  user => $quickbase::username,
 	  unless => "test -d /var/quickstart/quickstart-configure/.git",
 	}
-
 	
 }
