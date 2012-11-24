@@ -4,8 +4,8 @@
 # ############################################## User configurable settings
 
 # Packaging variables
-QS_VERSION="3.0alpha2"
-QS_VERSION_NODOTS="3_0a2"
+QS_VERSION="3.0alpha3"
+QS_VERSION_NODOTS="3_0a3"
 QS_ORGANIZATION="Drupal Quickstart"
 QS_URL="http://DrupalQuickstart.org"
 
@@ -24,7 +24,7 @@ QS_OUTPUT="./Output"
 
 # Are we in development mode?  Comment for official mode.  See also VagrantFile and quickimage-config.sh
 # comment to turn off
-#QS_DEBUG=debug
+QS_DEBUG=debug
 
 # ############################################## VBox and File names
 
@@ -54,6 +54,9 @@ fi
 # ############################################## Install Build Tools
 
 ## Build Tools: Install VirtualBox, Vagrant, and Python if necessary
+
+# apt-cache on host
+command -v python >/dev/null 2>&1 || { echo "Installing apt-cacher.  Select 'daemon' mode..."; sudo apt-get -yqq update; sudo apt-get -yqq install apt-cacher apache2; }
 
 # python
 command -v python >/dev/null 2>&1 || { echo "Installing python..."; sudo apt-get -yqq update; sudo apt-get -yqq install python; }

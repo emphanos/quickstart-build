@@ -11,6 +11,7 @@ class params {
   \$version_nodots = '$QS_VERSION_NODOTS'
   \$username = '$QS_USER'
   \$hostname = 'qs$QS_VERSION_NODOTS'
+  \$debug = '$QS_DEBUG'
 }" > QuickBase/puppet/manifests/params.pp
 
 

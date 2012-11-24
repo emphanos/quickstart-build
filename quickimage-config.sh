@@ -43,6 +43,7 @@ else
   exit
 fi
 
+
 # Restore QuickBase snapshot
 echo "** Restoring snapshot of QuickBase working copy ..."
 vagrant halt
@@ -50,17 +51,44 @@ sleep 20
 vboxmanage snapshot $QUICKBASE_UUID restorecurrent
 if [ $? -gt 0 ]; then QS_ERROR=" !!! Vboxmanage error"; exit; fi
 
+
 # Start vagrant (no need to rerun provision scripts)
 echo "** Starting QuickBase working copy ..."
 vagrant up --no-provision
 if [ $? -gt 0 ]; then QS_ERROR="Vagrant up error"; exit; fi
+
 
 # Configure the image
 echo "** Configuring QuickBase working copy as $1 ..."
 vagrant ssh -c "$QS_GO $QS_DEBUG"
 if [ $? -gt 0 ]; then QS_ERROR="Vagrant ssh error"; exit; fi
 
-# Prep for export if appropriateS
+
+# Run manual configuration
+if [ "$1" == 'dev' ]; then
+	# reboot in graphics mode
+	vagrant halt
+	sleep 20
+	vagrant up 
+	echo "** Starting manual configuration of QuickBase working copy as $1 ..."
+	echo "=======================
+***
+***    1) Click the circle and select Cinnamon
+***    2) Login as $QS_USER  (password $QS_USER)
+***    3) Start terminal (Ctrl-Alt-T)
+***    4) $ cd /var/quickstart/quickstart-configure
+***    5) $ bash manualconfig.sh
+***    6) Follow the instructions
+***
+========================="
+	read
+	
+	vagrant ssh -c "$QS_GO $QS_DEBUG"
+	if [ $? -gt 0 ]; then QS_ERROR="Vagrant ssh error"; exit; fi
+fi
+
+
+# Prep for export if appropriate
 if [ -z "$QS_DEBUG" ]; then
   echo " *** DEBUG MODE OFF.  Prepping for export"
   vagrant ssh -c "sudo su $QS_USER -c \". $QS_CONFIG_DIR/exportprep.sh\""

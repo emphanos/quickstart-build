@@ -8,11 +8,11 @@ Vagrant::Config.run do |config|
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   # Leave this :gui for QuickDev
-  #config.vm.boot_mode = :gui
+  config.vm.boot_mode = :gui
 
   # Configure VM Hardware
   config.vm.customize ["modifyvm", :id, "--memory", 2048]
-  config.vm.customize ["modifyvm", :id, "--vram", 64]
+  config.vm.customize ["modifyvm", :id, "--vram", 128]
   config.vm.customize ["modifyvm", :id, "--accelerate3d", "on"]
 
   # Configure VM OS
